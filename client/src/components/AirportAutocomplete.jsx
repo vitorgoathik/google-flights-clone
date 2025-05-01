@@ -15,16 +15,7 @@ const AirportAutocomplete = ({ label, onSelect }) => {
   
     const id = setTimeout(async () => {
       try {
-        const res = await fetch(
-            `https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchAirport?query=${encodeURIComponent(query)}&locale=en-US`,
-            {
-            headers: {
-              'X-RapidAPI-Key': import.meta.env.VITE_RAPID_API_KEY,
-              'X-RapidAPI-Host': 'sky-scrapper.p.rapidapi.com',
-            },
-          }
-        );
-  
+        const res = await fetch(`http://localhost:4000/api/search-airport?query=${encodeURIComponent(query)}`);
         const json = await res.json();
   
         if (json.status && Array.isArray(json.data)) {

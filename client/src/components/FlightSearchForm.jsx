@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AirportAutocomplete from './AirportAutocomplete';
+import FlightResultCard from './FlightResultCard';
 
 const FlightSearchForm = () => {
   const [originAirport, setOriginAirport] = useState(null);
@@ -20,18 +21,10 @@ const FlightSearchForm = () => {
     setError(null);
     setLoading(true);
 
-    const url = `https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchFlights?originEntityId=${originAirport.entityId}&originSkyId=${originAirport.slyId}&destinationEntityId=${destinationAirport.entityId}&date=${date}`;
-
-    const options = {
-      method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': import.meta.env.VITE_RAPID_API_KEY,
-        'X-RapidAPI-Host': 'sky-scrapper.p.rapidapi.com',
-      },
-    };
+    const url = `http://localhost:4000/api/search-flights?originEntityId=${originAirport.entityId}&originSkyId=${originAirport.slyId}&destinationEntityId=${destinationAirport.entityId}&date=${date}`;
 
     try {
-      const res = await fetch(url, options);
+      const res = await fetch(url);
       const data = await res.json();
 
       if (data.flights && data.flights.length > 0) {
@@ -80,9 +73,7 @@ const FlightSearchForm = () => {
         <div className="mt-6 space-y-4">
           <h3 className="text-lg font-semibold">Results</h3>
           {flights.map((flight, idx) => (
-            <>
-              card...
-            </>
+            <FlightResultCard key={idx} flight={flight} />
           ))}
         </div>
       )}
